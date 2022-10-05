@@ -1,0 +1,25 @@
+<%- include('includes/navigation.ejs'); %>
+<div class="flex-container">
+  <form name="loginForm" method="POST" action="/login">
+    <div class="form-heading">
+      <h2>Login:</h2>
+    </div>
+    <input type="email" name="email" placeholder="Email" value="<%= email %>" />
+
+    <input
+      type="password"
+      name="password"
+      placeholder="Password"
+      value="<%= password %>"
+    />
+    <div class="form-link">
+      <span
+        >Don't have an account?
+        <a style="color: blueviolet" href="/signup">Sign Up</a></span
+      >
+    </div>
+
+    <input type="submit" value=" Login " />
+  </form>
+</div>
+<%- include('includes/footer.ejs'); %>

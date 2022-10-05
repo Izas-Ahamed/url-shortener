@@ -1,0 +1,28 @@
+<% if(errorMessage) { %>
+
+    <div id="notification-failure" >
+        <span><%= errorMessage  %> </span>
+    </div>
+
+    <script> 
+        var x = document.getElementById("notification-failure");
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    </script>
+
+<% } else if(successMessage ) { %>
+
+    <div id= "notification-success" >
+    <span><%= successMessage %></span>
+  
+    <script> 
+        var x = document.getElementById("notification-success");
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    </script>
+
+</div>
+ <%}%>
+<div class="footer">© ThunderX⚡ </div>
+</body>
+</html>

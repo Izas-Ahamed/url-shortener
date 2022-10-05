@@ -1,0 +1,57 @@
+<%- include('includes/navigation.ejs'); %>
+<div class="container">
+  <p id="greeting-text"></p>
+  <div>
+    <form name="urlForm" method="POST" action="/shortUrl">
+      <input type="text" name="url" placeholder="Enter URL here" required />
+      <input type="submit" />
+    </form>
+  </div>
+
+  <!-- <% if(urls.length>0) {%> -->
+  <div class="url-container">
+    <% for(let url of urls) { %>
+    <div class="urls">
+      <div class="long-url">
+        <p>Original URL:</p>
+        <a href="<%=url.originalURL %>"><%= url.originalURL %></a>
+      </div>
+      <div class="url-detail">
+        <p>Shorted URL:</p>
+        <a href="/<%=url.shortURL %>"><%= url.shortURL %></a>
+      </div>
+      <div class="url-detail">
+        <p>HitCounts:</p>
+        <p><%=url.hitCount%></p>
+      </div>
+      <div class="url-detail" style="margin-top: 13px">
+        <a
+          title="Delete"
+          class="dustbin-icon"
+          href="/delete/<%=url.shortURL %> "
+          >🗑️</a
+        >
+      </div>
+    </div>
+    <% } %>
+  </div>
+  <!-- <% } %> -->
+</div>
+<script>
+  var hour = new Date().getHours();
+  var greeting = document.getElementById("greeting-text");
+  if (hour >= 4 && hour < 12) {
+    greeting.innerHTML =
+      "Good Morning, <%=userName[0].toUpperCase() + userName.slice(1)%> !";
+  } else if (hour >= 12 && hour <= 17) {
+    greeting.innerHTML =
+      "Good Afternoon, <%=userName[0].toUpperCase() + userName.slice(1)%> !";
+  } else if (hour > 17 && hour < 21) {
+    greeting.innerHTML =
+      "Good Evening, <%=userName[0].toUpperCase() + userName.slice(1)%> !";
+  } else {
+    greeting.innerHTML =
+      "Good Night, <%=userName[0].toUpperCase() + userName.slice(1)%> !";
+  }
+</script>
+<%- include('includes/footer.ejs'); %>

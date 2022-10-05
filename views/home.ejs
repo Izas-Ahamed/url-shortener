@@ -1,0 +1,19 @@
+<%- include('includes/navigation.ejs'); %>
+<div class="container">
+  <p class="logo-text">MiniFy</p>
+  <span class="typed"> A URL Shortener <span class="typing"></span> </span>
+  <p style="margin-top: 100px">
+    <a href="/login">Login</a> or <a href="/signup">Signup</a> to continue... 🤗
+  </p>
+</div>
+
+<script src="https://unpkg.com/typed.js@2.0.12/lib/typed.js"></script>
+<script>
+  var typed = new Typed(".typing", {
+    strings: ["to short lengthy urls 😀!", "to share url quickly 😉!"],
+    typeSpeed: 70,
+    backSpeed: 30,
+    loop: true,
+  });
+</script>
+<%- include('includes/footer.ejs'); %>
