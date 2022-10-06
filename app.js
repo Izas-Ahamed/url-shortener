@@ -6,7 +6,6 @@ const mongodbStore = require("connect-mongodb-session")(session);
 
 if (process.env != "production") require("dotenv").config();
 
-console.log(process.env.MONGODB_URI);
 const authRouter = require("./routes/authRouter");
 const urlRouter = require("./routes/urlRouter");
 const viewRouter = require("./routes/viewRouter");
@@ -27,6 +26,7 @@ app.use(
 );
 
 app.set("view engine", "ejs");
+app.set("views", "views");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
