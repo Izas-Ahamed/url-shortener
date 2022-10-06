@@ -1,11 +1,9 @@
 const monk = require("monk");
 const { nanoid } = require("nanoid");
 
-const db = monk(
-  "mongodb+srv://root:root@urlsh.2dxmg1b.mongodb.net/?retryWrites=true&w=majority"
-);
-
+const db = monk(process.env.MONGODB_URI);
 const shortenUrls = db.get("shortenUrls");
+
 shortenUrls.createIndex("originalURL");
 shortenUrls.createIndex("shortURL");
 shortenUrls.createIndex({ createdAt: 1 }, { expireAfterSeconds: 86400 });
@@ -47,6 +45,7 @@ exports.shortURL = async (req, res) => {
       hitCount: 0,
       user: req.session.user._id,
     });
+
     const urls = await shortenUrls.find({
       user: req.session.user._id,
     });
@@ -62,6 +61,7 @@ exports.shortURL = async (req, res) => {
     const urls = await shortenUrls.find({
       user: req.session.user._id,
     });
+
     res.render("shortUrl", {
       errorMessage: e.message,
       successMessage: null,
@@ -84,7 +84,6 @@ exports.getURL = async (req, res) => {
 
     res.redirect(urlData.originalURL);
   } catch (e) {
-    //TODO: have to send error page
     res.render("notFound", {
       message: e.message,
       errorMessage: null,
@@ -103,14 +102,11 @@ exports.deleteURL = async (req, res) => {
 
     res.redirect("/shortURL");
   } catch (e) {
-    const urls = await shortenUrls.find({
-      user: req.session.user._id,
-    });
     res.render("notFound", {
       message: e.message,
       errorMessage: null,
       successMessage: null,
-      urls: urls,
+      urls: [],
       isLoggedIn: null,
     });
   }

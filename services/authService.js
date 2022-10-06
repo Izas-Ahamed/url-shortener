@@ -1,10 +1,9 @@
 const monk = require("monk");
 const yup = require("yup");
 const bcrypt = require("bcryptjs");
-
 const db = monk(process.env.MONGODB_URI);
-
 const users = db.get("users");
+
 const loginSchema = yup.object().shape({
   email: yup
     .string()
@@ -45,6 +44,7 @@ exports.login = async (req, res) => {
     );
 
     const user = await users.findOne({ email: req.body.email });
+
     if (!user)
       res.render("login", {
         errorMessage: "Account not found! 😕",
@@ -53,12 +53,14 @@ exports.login = async (req, res) => {
       });
 
     const isVerified = await bcrypt.compare(req.body.password, user.password);
+
     if (!isVerified)
       return res.render("login", {
         errorMessage: "Invalid Password ☹️",
         successMessage: null,
         isLoggedIn: null,
       });
+
     req.session.isLoggedIn = true;
     req.session.user = user;
     res.redirect("/shortUrl");
@@ -97,12 +99,15 @@ exports.signup = async (req, res) => {
         confirmPassword: null,
         isLoggedIn: null,
       });
+
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
+
     await users.insert({
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
     });
+
     res.render("signup", {
       errorMessage: null,
       successMessage: "Account created successfully! 😀",

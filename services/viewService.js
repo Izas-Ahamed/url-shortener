@@ -1,8 +1,7 @@
 const monk = require("monk");
-const db = monk(
-  "mongodb+srv://root:root@urlsh.2dxmg1b.mongodb.net/?retryWrites=true&w=majority"
-);
+const db = monk(process.env.MONGODB_URI);
 const shortenUrls = db.get("shortenUrls");
+
 exports.home = (req, res) => {
   res.render("home", {
     errorMessage: null,

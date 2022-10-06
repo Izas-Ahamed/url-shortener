@@ -1,13 +1,15 @@
 const express = require("express");
 const path = require("path");
 const app = express();
+const session = require("express-session");
+const mongodbStore = require("connect-mongodb-session")(session);
+
+if (process.env != "production") require("dotenv").config();
 
 const authRouter = require("./routes/authRouter");
 const urlRouter = require("./routes/urlRouter");
 const viewRouter = require("./routes/viewRouter");
 
-const session = require("express-session");
-const mongodbStore = require("connect-mongodb-session")(session);
 const store = new mongodbStore({
   uri: process.env.MONGODB_URI,
   collection: "sessions",
@@ -31,6 +33,7 @@ app.use(express.json());
 app.listen(process.env.PORT || 5000, () => {
   console.log("Server Started!");
 });
+
 app.use(authRouter);
 app.use(viewRouter);
 app.use(urlRouter);
