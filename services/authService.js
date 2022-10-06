@@ -46,10 +46,12 @@ exports.login = async (req, res) => {
     const user = await users.findOne({ email: req.body.email });
 
     if (!user)
-      res.render("login", {
+      return res.render("login", {
         errorMessage: "Account not found! 😕",
         successMessage: null,
         isLoggedIn: null,
+        email: req.body.email,
+        password: req.body.password,
       });
 
     const isVerified = await bcrypt.compare(req.body.password, user.password);
@@ -59,6 +61,8 @@ exports.login = async (req, res) => {
         errorMessage: "Invalid Password ☹️",
         successMessage: null,
         isLoggedIn: null,
+        email: req.body.email,
+        password: null,
       });
 
     req.session.isLoggedIn = true;
@@ -66,10 +70,11 @@ exports.login = async (req, res) => {
     res.redirect("/shortUrl");
   } catch (e) {
     res.render("login", {
-      errorMessage: e.inner[0].message,
+      errorMessage: e.inner ? e.inner[0].message : e.message,
       successMessage: null,
-      email: e.inner[0].path == "email" ? "" : req.body.email,
-      password: e.inner[0].path == "password" ? "" : req.body.password,
+      email: e.inner && e.inner[0].path == "email" ? "" : req.body.email,
+      password:
+        e.inner && e.inner[0].path == "password" ? "" : req.body.password,
       isLoggedIn: null,
     });
   }
@@ -93,10 +98,10 @@ exports.signup = async (req, res) => {
       return res.render("signup", {
         errorMessage: "emailId Already Exists 🔎!",
         successMessage: null,
-        name: null,
-        email: null,
-        password: null,
-        confirmPassword: null,
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        confirmPassword: req.body.confirmPassword,
         isLoggedIn: null,
       });
 
@@ -119,13 +124,16 @@ exports.signup = async (req, res) => {
     });
   } catch (e) {
     res.render("signup", {
-      errorMessage: e.inner[0].message,
+      errorMessage: e.inner && e.inner[0].message,
       successMessage: null,
-      name: e.inner[0].path == "name" ? "" : req.body.name,
-      email: e.inner[0].path == "email" ? "" : req.body.email,
-      password: e.inner[0].path == "password" ? "" : req.body.password,
+      name: e.inner && e.inner[0].path == "name" ? "" : req.body.name,
+      email: e.inner && e.inner[0].path == "email" ? "" : req.body.email,
+      password:
+        e.inner && e.inner[0].path == "password" ? "" : req.body.password,
       confirmPassword:
-        e.inner[0].path == "confirmPassword" ? "" : req.body.confirmPassword,
+        e.inner && e.inner[0].path == "confirmPassword"
+          ? ""
+          : req.body.confirmPassword,
       isLoggedIn: req.session.isLoggedIn,
     });
   }
