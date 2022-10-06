@@ -3,9 +3,7 @@ const path = require("path");
 const app = express();
 const session = require("express-session");
 const mongodbStore = require("connect-mongodb-session")(session);
-const dree = require("dree");
-const string = dree.parse(__dirname);
-console.log(string);
+
 if (process.env != "production") require("dotenv").config();
 
 const authRouter = require("./routes/authRouter");
