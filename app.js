@@ -3,7 +3,9 @@ const path = require("path");
 const app = express();
 const session = require("express-session");
 const mongodbStore = require("connect-mongodb-session")(session);
-
+const dree = require("dree");
+const string = dree.parse(__dirname);
+console.log(string);
 if (process.env != "production") require("dotenv").config();
 
 const authRouter = require("./routes/authRouter");
@@ -26,7 +28,7 @@ app.use(
 );
 
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.set("views", "views");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
