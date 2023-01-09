@@ -1,7 +1,7 @@
 # Minify🤏 - An URL Shortner
 Completely Made by NodeJS along with mongoDB
 
-Deployed link : https://mfy.herokuapp.com
+Deployed link : (not yet deployed)
 
 ## Packages used:
 - express
